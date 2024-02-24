@@ -54,3 +54,19 @@ exports.getPersonnageByPrenom = async (req, res) => {
         res.status(500).send(err);
     }
 };
+
+exports.deletePersonnageById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const personnage = await Personnage.findByIdAndDelete(id);
+
+        if (!personnage) {
+            return res.status(404).send('Personnage non trouvé');
+        }
+
+        res.send(personnage);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

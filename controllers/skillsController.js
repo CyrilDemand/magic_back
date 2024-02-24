@@ -38,3 +38,17 @@ exports.getSkills = async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 };
+
+exports.deleteSkillById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deletedCompetence = await Competence.findByIdAndDelete(id);
+        if (deletedCompetence) {
+            res.status(200).send("Competence supprimé avec succès.");
+        } else {
+            res.status(404).send("Competence non trouvé");
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+}
