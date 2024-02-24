@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  app:
+    container_name: express_backend
+    restart: always
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/projet_val
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=projet_val
+    networks:
+      - app-network
+
+# Volumes for persistent data
+volumes:
+  mongo_data:
+
+# Networks to link services
+networks:
+  app-network:
+    driver: bridge
